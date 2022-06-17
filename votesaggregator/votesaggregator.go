@@ -8,9 +8,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/aragon/ovote-node/db"
-	"github.com/aragon/ovote-node/prover"
-	"github.com/aragon/ovote-node/types"
+	"github.com/groupoidlabs/ovote-node/db"
+	"github.com/groupoidlabs/ovote-node/prover"
+	"github.com/groupoidlabs/ovote-node/types"
 	"github.com/vocdoni/arbo"
 	"go.vocdoni.io/dvote/log"
 )

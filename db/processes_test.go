@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/aragon/ovote-node/types"
 	qt "github.com/frankban/quicktest"
+	"github.com/groupoidlabs/ovote-node/types"
 	_ "github.com/mattn/go-sqlite3"
 )
 

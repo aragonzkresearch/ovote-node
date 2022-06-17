@@ -1,8 +1,8 @@
 package eth
 
 import (
-	"github.com/aragon/ovote-node/db"
-	"github.com/aragon/ovote-node/types"
+	"github.com/groupoidlabs/ovote-node/db"
+	"github.com/groupoidlabs/ovote-node/types"
 )
 
 // ensure that TestEthClient implements the eth.ClientInterf interface

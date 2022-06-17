@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/aragon/ovote-node/types"
+	"github.com/groupoidlabs/ovote-node/types"
 )
 
 // ErrProofNotInDB is used to indicate when the proof does not exist in the db.

@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/aragon/ovote-node/types"
+	"github.com/groupoidlabs/ovote-node/types"
 )
 
 // StoreProcess stores a new process with the given id, censusRoot and

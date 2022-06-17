@@ -7,11 +7,11 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/aragon/ovote-node/db"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/groupoidlabs/ovote-node/db"
 	"github.com/vocdoni/arbo"
 	"go.vocdoni.io/dvote/log"
 )

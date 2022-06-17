@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/aragon/ovote-node/types"
 	"github.com/gin-gonic/gin"
+	"github.com/groupoidlabs/ovote-node/types"
 	flag "github.com/spf13/pflag"
 	"go.vocdoni.io/dvote/db"
 	"go.vocdoni.io/dvote/db/pebbledb"

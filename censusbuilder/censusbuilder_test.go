@@ -3,9 +3,9 @@ package censusbuilder
 import (
 	"testing"
 
-	"github.com/aragon/ovote-node/census"
-	"github.com/aragon/ovote-node/test"
 	qt "github.com/frankban/quicktest"
+	"github.com/groupoidlabs/ovote-node/census"
+	"github.com/groupoidlabs/ovote-node/test"
 	"github.com/vocdoni/arbo"
 	"go.vocdoni.io/dvote/db"
 	"go.vocdoni.io/dvote/db/pebbledb"

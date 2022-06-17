@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/aragon/ovote-node/types"
+	"github.com/groupoidlabs/ovote-node/types"
 )
 
 // StoreVotePackage stores the given types.VotePackage for the given CensusRoot

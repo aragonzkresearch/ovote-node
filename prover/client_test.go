@@ -7,9 +7,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/aragon/ovote-node/types"
 	qt "github.com/frankban/quicktest"
 	"github.com/gin-gonic/gin"
+	"github.com/groupoidlabs/ovote-node/types"
 )
 
 func TestGenProof(t *testing.T) {

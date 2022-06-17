@@ -8,10 +8,10 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/aragon/ovote-node/db"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	qt "github.com/frankban/quicktest"
+	"github.com/groupoidlabs/ovote-node/db"
 	"github.com/vocdoni/arbo"
 	"go.vocdoni.io/dvote/log"
 )

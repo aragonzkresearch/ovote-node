@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/aragon/ovote-node/census"
+	"github.com/groupoidlabs/ovote-node/census"
 	"github.com/iden3/go-iden3-crypto/babyjub"
 	"go.vocdoni.io/dvote/db"
 	"go.vocdoni.io/dvote/db/pebbledb"
