@@ -43,11 +43,10 @@ func baseTestVotesAggregator(c *qt.C, chainID, processID uint64, nVotes, ratio i
 	ethEndBlockNum := uint64(20)
 	resultsPublishingWindow := uint64(20)
 	minParticipation := uint8(20)
-	minPositiveVotes := uint8(60)
 	typ := uint8(1)
 	err = sqlite.StoreProcess(processID, censusRoot, censusSize,
 		ethBlockNum, ethEndBlockNum, resultsPublishingWindow, minParticipation,
-		minPositiveVotes, typ)
+		typ)
 	c.Assert(err, qt.IsNil)
 
 	return va, votes

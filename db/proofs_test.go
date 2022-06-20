@@ -28,12 +28,10 @@ func TestProof(t *testing.T) {
 	resPubStartBlock := uint64(20)
 	resPubWindow := uint64(20)
 	minParticipation := uint8(20)
-	minPositiveVotes := uint8(60)
 	typ := uint8(1)
 
 	err = sqlite.StoreProcess(processID, censusRoot, censusSize,
-		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation,
-		minPositiveVotes, typ)
+		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation, typ)
 	c.Assert(err, qt.IsNil)
 
 	proof, err := sqlite.GetProofByProcessID(processID)

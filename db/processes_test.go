@@ -29,26 +29,22 @@ func TestStoreProcess(t *testing.T) {
 	resPubStartBlock := uint64(20)
 	resPubWindow := uint64(20)
 	minParticipation := uint8(20)
-	minPositiveVotes := uint8(60)
 	typ := uint8(1)
 
 	err = sqlite.StoreProcess(processID, censusRoot, censusSize,
-		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation,
-		minPositiveVotes, typ)
+		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation, typ)
 	c.Assert(err, qt.IsNil)
 
 	// try to store the same processID, expecting error
 	err = sqlite.StoreProcess(processID, censusRoot, censusSize,
-		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation,
-		minPositiveVotes, typ)
+		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation, typ)
 	c.Assert(err, qt.Not(qt.IsNil))
 	c.Assert(err.Error(), qt.Equals, "UNIQUE constraint failed: processes.id")
 
 	// try to store the a different processID, but the same censusRoot,
 	// expecting no error
 	err = sqlite.StoreProcess(processID+1, censusRoot, censusSize,
-		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation,
-		minPositiveVotes, typ)
+		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation, typ)
 	c.Assert(err, qt.IsNil)
 
 	process, err := sqlite.ReadProcessByID(processID)
@@ -85,12 +81,10 @@ func TestProcessStatus(t *testing.T) {
 	resPubStartBlock := uint64(20)
 	resPubWindow := uint64(20)
 	minParticipation := uint8(60)
-	minPositiveVotes := uint8(20)
 	typ := uint8(1)
 
 	err = sqlite.StoreProcess(processID, censusRoot, censusSize,
-		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation,
-		minPositiveVotes, typ)
+		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation, typ)
 	c.Assert(err, qt.IsNil)
 
 	status, err := sqlite.GetProcessStatus(processID)
@@ -131,13 +125,12 @@ func TestProcessesByStatus(t *testing.T) {
 	resPubStartBlock := uint64(20)
 	resPubWindow := uint64(20)
 	minParticipation := uint8(60)
-	minPositiveVotes := uint8(20)
 	typ := uint8(1)
 
 	for i := 0; i < 10; i++ {
 		err = sqlite.StoreProcess(uint64(i), censusRoot, censusSize,
 			ethBlockNum, resPubStartBlock, resPubWindow, minParticipation,
-			minPositiveVotes, typ)
+			typ)
 		c.Assert(err, qt.IsNil)
 	}
 
@@ -178,32 +171,25 @@ func TestProcessByResPubStartBlock(t *testing.T) {
 	resPubStartBlock := uint64(20)
 	resPubWindow := uint64(20)
 	minParticipation := uint8(60)
-	minPositiveVotes := uint8(20)
 	typ := uint8(1)
 
 	err = sqlite.StoreProcess(processID, censusRoot, censusSize,
-		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation,
-		minPositiveVotes, typ)
+		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation, typ)
 	c.Assert(err, qt.IsNil)
 	err = sqlite.StoreProcess(processID+1, censusRoot, censusSize,
-		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation,
-		minPositiveVotes, typ)
+		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation, typ)
 	c.Assert(err, qt.IsNil)
 	err = sqlite.StoreProcess(processID+2, censusRoot, censusSize,
-		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation,
-		minPositiveVotes, typ)
+		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation, typ)
 	c.Assert(err, qt.IsNil)
 	err = sqlite.StoreProcess(processID+3, censusRoot, censusSize,
-		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation,
-		minPositiveVotes, typ)
+		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation, typ)
 	c.Assert(err, qt.IsNil)
 	err = sqlite.StoreProcess(processID+4, censusRoot, censusSize,
-		ethBlockNum, resPubStartBlock+1, resPubWindow, minParticipation,
-		minPositiveVotes, typ)
+		ethBlockNum, resPubStartBlock+1, resPubWindow, minParticipation, typ)
 	c.Assert(err, qt.IsNil)
 	err = sqlite.StoreProcess(processID+5, censusRoot, censusSize,
-		ethBlockNum, resPubStartBlock+1, resPubWindow, minParticipation,
-		minPositiveVotes, typ)
+		ethBlockNum, resPubStartBlock+1, resPubWindow, minParticipation, typ)
 	c.Assert(err, qt.IsNil)
 
 	processes, err := sqlite.ReadProcesses()
@@ -237,14 +223,13 @@ func TestFrozeProcessesByCurrentBlockNum(t *testing.T) {
 	resPubStartBlock := uint64(20)
 	resPubWindow := uint64(20)
 	minParticipation := uint8(60)
-	minPositiveVotes := uint8(20)
 	typ := uint8(1)
 
 	// first, store few processes
 	for i := 0; i < 10; i++ {
 		err = sqlite.StoreProcess(processID+uint64(i), censusRoot,
-			censusSize, ethBlockNum, resPubStartBlock+uint64(i), resPubWindow,
-			minParticipation, minPositiveVotes, typ)
+			censusSize, ethBlockNum, resPubStartBlock+uint64(i),
+			resPubWindow, minParticipation, typ)
 		c.Assert(err, qt.IsNil)
 	}
 

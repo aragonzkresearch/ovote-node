@@ -13,7 +13,7 @@ import (
 // the SmartContract, and its status is set to types.ProcessStatusOn
 func (r *SQLite) StoreProcess(id uint64, censusRoot []byte, censusSize,
 	ethBlockNum, resPubStartBlock, resPubWindow uint64, minParticipation,
-	minPositiveVotes, typ uint8) error {
+	typ uint8) error {
 	sqlQuery := `
 	INSERT INTO processes(
 		id,
@@ -24,10 +24,9 @@ func (r *SQLite) StoreProcess(id uint64, censusRoot []byte, censusSize,
 		resPubStartBlock,
 		resPubWindow,
 		minParticipation,
-		minPositiveVotes,
 		type,
 		insertedDatetime
-	) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+	) values(?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
 	`
 
 	stmt, err := r.db.Prepare(sqlQuery)
@@ -37,8 +36,7 @@ func (r *SQLite) StoreProcess(id uint64, censusRoot []byte, censusSize,
 	defer stmt.Close() //nolint:errcheck
 
 	_, err = stmt.Exec(id, types.ProcessStatusOn, censusRoot, censusSize,
-		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation,
-		minPositiveVotes, typ)
+		ethBlockNum, resPubStartBlock, resPubWindow, minParticipation, typ)
 	if err != nil {
 		return err
 	}
@@ -87,8 +85,8 @@ func (r *SQLite) ReadProcessByID(id uint64) (*types.Process, error) {
 	var process types.Process
 	err := row.Scan(&process.ID, &process.Status, &process.CensusRoot,
 		&process.CensusSize, &process.EthBlockNum, &process.ResPubStartBlock,
-		&process.ResPubWindow, &process.MinParticipation,
-		&process.MinPositiveVotes, &process.Type, &process.InsertedDatetime)
+		&process.ResPubWindow, &process.MinParticipation, &process.Type,
+		&process.InsertedDatetime)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, fmt.Errorf("ProcessID: %d, does not exist in the db", id)
@@ -118,8 +116,8 @@ func (r *SQLite) ReadProcesses() ([]types.Process, error) {
 		err = rows.Scan(&process.ID, &process.Status,
 			&process.CensusRoot, &process.CensusSize, &process.EthBlockNum,
 			&process.ResPubStartBlock, &process.ResPubWindow,
-			&process.MinParticipation, &process.MinPositiveVotes,
-			&process.Type, &process.InsertedDatetime)
+			&process.MinParticipation, &process.Type,
+			&process.InsertedDatetime)
 		if err != nil {
 			return nil, err
 		}
@@ -175,8 +173,8 @@ func (r *SQLite) ReadProcessesByResPubStartBlock(resPubStartBlock uint64) (
 		err = rows.Scan(&process.ID, &process.Status,
 			&process.CensusRoot, &process.CensusSize, &process.EthBlockNum,
 			&process.ResPubStartBlock, &process.ResPubWindow,
-			&process.MinParticipation, &process.MinPositiveVotes,
-			&process.Type, &process.InsertedDatetime)
+			&process.MinParticipation, &process.Type,
+			&process.InsertedDatetime)
 		if err != nil {
 			return nil, err
 		}
@@ -205,8 +203,8 @@ func (r *SQLite) ReadProcessesByStatus(status types.ProcessStatus) ([]types.Proc
 		err = rows.Scan(&process.ID, &process.Status,
 			&process.CensusRoot, &process.CensusSize, &process.EthBlockNum,
 			&process.ResPubStartBlock, &process.ResPubWindow,
-			&process.MinParticipation, &process.MinPositiveVotes,
-			&process.Type, &process.InsertedDatetime)
+			&process.MinParticipation, &process.Type,
+			&process.InsertedDatetime)
 		if err != nil {
 			return nil, err
 		}

@@ -46,7 +46,6 @@ func (r *SQLite) Migrate() error {
 		resPubStartBlock INTEGER NOT NULL,
 		resPubWindow INTEGER NOT NULL,
 		minParticipation INTEGER NOT NULL,
-		minPositiveVotes INTEGER NOT NULL,
 		type INTEGER NOT NULL,
 		insertedDatetime DATETIME
 	);

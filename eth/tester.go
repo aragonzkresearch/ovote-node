@@ -36,7 +36,7 @@ func (e *TestEthClient) AdvanceBlock() error {
 				events[i].CensusRoot, events[i].CensusSize,
 				e.currentBlock, events[i].ResPubStartBlock,
 				events[i].ResPubWindow, events[i].MinParticipation,
-				events[i].MinPositiveVotes, events[i].Type)
+				events[i].Type)
 			if err != nil {
 				return err
 			}

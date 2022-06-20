@@ -30,7 +30,6 @@ func TestAdvanceBlock(t *testing.T) {
 		ResPubStartBlock: 1010,
 		ResPubWindow:     300,
 		MinParticipation: 20,
-		MinPositiveVotes: 60,
 	}}
 	events[1002] = []TestEvent{{
 		ID:               2,
@@ -39,7 +38,6 @@ func TestAdvanceBlock(t *testing.T) {
 		ResPubStartBlock: 1011,
 		ResPubWindow:     300,
 		MinParticipation: 20,
-		MinPositiveVotes: 60,
 	}}
 	eth := NewTestEthClient(sqlite, 1000, events)
 
@@ -68,7 +66,6 @@ func TestAdvanceBlock(t *testing.T) {
 	c.Assert(processes[0].ResPubStartBlock, qt.Equals, events[1001][0].ResPubStartBlock)
 	c.Assert(processes[0].ResPubWindow, qt.Equals, events[1001][0].ResPubWindow)
 	c.Assert(processes[0].MinParticipation, qt.Equals, events[1001][0].MinParticipation)
-	c.Assert(processes[0].MinPositiveVotes, qt.Equals, events[1001][0].MinPositiveVotes)
 	c.Assert(processes[0].Status, qt.Equals, types.ProcessStatusOn)
 	c.Assert(processes[1].ID, qt.Equals, events[1002][0].ID)
 	c.Assert(processes[1].CensusRoot, qt.DeepEquals, events[1002][0].CensusRoot)
@@ -76,7 +73,6 @@ func TestAdvanceBlock(t *testing.T) {
 	c.Assert(processes[1].ResPubStartBlock, qt.Equals, events[1002][0].ResPubStartBlock)
 	c.Assert(processes[1].ResPubWindow, qt.Equals, events[1002][0].ResPubWindow)
 	c.Assert(processes[1].MinParticipation, qt.Equals, events[1002][0].MinParticipation)
-	c.Assert(processes[1].MinPositiveVotes, qt.Equals, events[1002][0].MinPositiveVotes)
 	c.Assert(processes[1].Status, qt.Equals, types.ProcessStatusOn)
 
 	// advance until block 1010, to check that process 0 Status has been updated
