@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/groupoidlabs/ovote-node/types"
+	"github.com/aragonzkresearch/ovote-node/types"
 	"github.com/iden3/go-iden3-crypto/babyjub"
 	"github.com/vocdoni/arbo"
 	"go.vocdoni.io/dvote/db"

@@ -1,12 +1,12 @@
-# ovote-node [![GoDoc](https://godoc.org/github.com/groupoidlabs/ovote-node?status.svg)](https://godoc.org/github.com/groupoidlabs/ovote-node) [![Go Report Card](https://goreportcard.com/badge/github.com/groupoidlabs/ovote-node)](https://goreportcard.com/report/github.com/groupoidlabs/ovote-node) [![Test](https://github.com/groupoidlabs/ovote-node/workflows/Test/badge.svg)](https://github.com/groupoidlabs/ovote-node/actions?query=workflow%3ATest)
+# ovote-node [![GoDoc](https://godoc.org/github.com/aragonzkresearch/ovote-node?status.svg)](https://godoc.org/github.com/aragonzkresearch/ovote-node) [![Go Report Card](https://goreportcard.com/badge/github.com/aragonzkresearch/ovote-node)](https://goreportcard.com/report/github.com/aragonzkresearch/ovote-node) [![Test](https://github.com/aragonzkresearch/ovote-node/workflows/Test/badge.svg)](https://github.com/aragonzkresearch/ovote-node/actions?query=workflow%3ATest)
 
 *Research project.*
 
 OVOTE: Offchain Voting with Onchain Trustless Execution.
 
-This repo contains the OVOTE node implementation, compatible with the [ovote](https://github.com/groupoidlabs/ovote) circuits & contracts. All code is in early stages.
+This repo contains the OVOTE node implementation, compatible with the [ovote](https://github.com/aragonzkresearch/ovote) circuits & contracts. All code is in early stages.
 
-More details on the ovote-node behaviour can be found at the [OVOTE document](https://github.com/groupoidlabs/research/blob/main/ovote/ovote-draft.pdf).
+More details on the ovote-node behaviour can be found at the [OVOTE document](https://github.com/aragonzkresearch/research/blob/main/drafts/ovote.pdf).
 
 ![](ovote-node.png)
 

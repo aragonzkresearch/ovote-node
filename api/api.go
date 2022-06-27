@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/aragonzkresearch/ovote-node/censusbuilder"
+	"github.com/aragonzkresearch/ovote-node/types"
+	"github.com/aragonzkresearch/ovote-node/votesaggregator"
 	"github.com/gin-gonic/gin"
-	"github.com/groupoidlabs/ovote-node/censusbuilder"
-	"github.com/groupoidlabs/ovote-node/types"
-	"github.com/groupoidlabs/ovote-node/votesaggregator"
 	"go.vocdoni.io/dvote/log"
 )
 

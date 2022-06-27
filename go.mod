@@ -1,4 +1,4 @@
-module github.com/groupoidlabs/ovote-node
+module github.com/aragonzkresearch/ovote-node
 
 go 1.17
 

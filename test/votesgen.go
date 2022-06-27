@@ -5,9 +5,9 @@ import (
 	"math"
 	"math/big"
 
+	"github.com/aragonzkresearch/ovote-node/census"
+	"github.com/aragonzkresearch/ovote-node/types"
 	qt "github.com/frankban/quicktest"
-	"github.com/groupoidlabs/ovote-node/census"
-	"github.com/groupoidlabs/ovote-node/types"
 	"github.com/iden3/go-iden3-crypto/babyjub"
 	"github.com/vocdoni/arbo"
 	"go.vocdoni.io/dvote/db"

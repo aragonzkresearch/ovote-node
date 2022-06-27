@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --max-old-space-size=4000 *.test.js",
-    "postinstall": "cd node_modules && git clone https://github.com/groupoidlabs/ovote.git && rm -rf .git && cd ovote/circuits && npm install && cd ../../../../ && go test -run=TestGenerateZKInputs"
+    "postinstall": "cd node_modules && git clone https://github.com/aragonzkresearch/ovote.git && rm -rf .git && cd ovote/circuits && npm install && cd ../../../../ && go test -run=TestGenerateZKInputs"
   },
-  "author": "GroupoidLabs",
+  "author": "AragonZKResearch",
   "license": "GPL-3.0",
   "dependencies": {},
   "devDependencies": {

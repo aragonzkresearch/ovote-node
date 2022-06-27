@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/groupoidlabs/ovote-node/types"
+	"github.com/aragonzkresearch/ovote-node/types"
 )
 
 // Client implements the prover http client, used to make requests to the

@@ -6,9 +6,9 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/aragonzkresearch/ovote-node/db"
 	"github.com/ethereum/go-ethereum/core/types"
 	qt "github.com/frankban/quicktest"
-	"github.com/groupoidlabs/ovote-node/db"
 	"github.com/vocdoni/arbo"
 	"go.vocdoni.io/dvote/log"
 )

@@ -8,10 +8,10 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/aragonzkresearch/ovote-node/db"
+	"github.com/aragonzkresearch/ovote-node/test"
+	"github.com/aragonzkresearch/ovote-node/types"
 	qt "github.com/frankban/quicktest"
-	"github.com/groupoidlabs/ovote-node/db"
-	"github.com/groupoidlabs/ovote-node/test"
-	"github.com/groupoidlabs/ovote-node/types"
 	_ "github.com/mattn/go-sqlite3"
 )
 
