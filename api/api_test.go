@@ -54,7 +54,7 @@ func newTestAPI(c *qt.C, chainID uint64) (API, *db.SQLite) {
 }
 
 func doPostNewCensus(c *qt.C, a API, pubKs []babyjub.PublicKey, weights []*big.Int) uint64 {
-	reqData := newCensusReq{PublicKeys: pubKs, Weights: weights}
+	reqData := AddKeysReq{PublicKeys: pubKs, Weights: weights}
 	jsonReqData, err := json.Marshal(reqData)
 	c.Assert(err, qt.IsNil)
 
@@ -75,7 +75,7 @@ func doPostNewCensus(c *qt.C, a API, pubKs []babyjub.PublicKey, weights []*big.I
 
 func doPostAddKeys(c *qt.C, a API, censusID uint64, pubKs []babyjub.PublicKey, weights []*big.Int) {
 	censusIDStr := strconv.Itoa(int(censusID))
-	reqData := newCensusReq{PublicKeys: pubKs, Weights: weights}
+	reqData := AddKeysReq{PublicKeys: pubKs, Weights: weights}
 	jsonReqData, err := json.Marshal(reqData)
 	c.Assert(err, qt.IsNil)
 	req, err := http.NewRequest("POST", "/census/"+censusIDStr, bytes.NewBuffer(jsonReqData))
@@ -103,7 +103,7 @@ func doPostCloseCensus(c *qt.C, a API, censusID uint64) []byte {
 	return root
 }
 
-func doGetProof(c *qt.C, a API, censusID uint64, pubK babyjub.PublicKey) types.CensusProof {
+func doGetCensusProof(c *qt.C, a API, censusID uint64, pubK babyjub.PublicKey) types.CensusProof {
 	censusIDStr := strconv.Itoa(int(censusID))
 	pubKComp := pubK.Compress()
 	pubKHex := hex.EncodeToString(pubKComp[:])
@@ -256,7 +256,7 @@ func TestGetProofHandler(t *testing.T) {
 	censusRoot := doPostCloseCensus(c, a, censusID)
 
 	for i := 0; i < nKeys; i++ {
-		cp := doGetProof(c, a, censusID, keys.PublicKeys[i])
+		cp := doGetCensusProof(c, a, censusID, keys.PublicKeys[i])
 		// fmt.Printf("Index: %d, MerkleProof: %x\n", cp.Index, cp.MerkleProof)
 
 		v, err := census.CheckProof(censusRoot, cp.MerkleProof, cp.Index,
@@ -323,7 +323,7 @@ func TestBuildCensusAndPostVoteHandler(t *testing.T) {
 
 	var proofs []types.CensusProof
 	for i := 0; i < nKeys; i++ {
-		cp := doGetProof(c, a, censusID, keys.PublicKeys[i])
+		cp := doGetCensusProof(c, a, censusID, keys.PublicKeys[i])
 		v, err := census.CheckProof(censusRoot, cp.MerkleProof, cp.Index,
 			&keys.PublicKeys[i], keys.Weights[i])
 		c.Assert(err, qt.IsNil)

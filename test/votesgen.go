@@ -74,8 +74,9 @@ func GenVotes(c *qt.C, cens *Census, chainID, processID uint64, ratio int) []typ
 		sig := sigUncomp.Compress()
 
 		// get merkleproof
-		index, proof, err := cens.Census.GetProof(&cens.Keys.PublicKeys[i])
+		index, weight, proof, err := cens.Census.GetProof(&cens.Keys.PublicKeys[i])
 		c.Assert(err, qt.IsNil)
+		c.Assert(weight.Bytes(), qt.DeepEquals, cens.Keys.Weights[i].Bytes())
 
 		vote := types.VotePackage{
 			Signature: sig,

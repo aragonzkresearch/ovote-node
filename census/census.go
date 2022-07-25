@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	"sync"
 
 	"github.com/aragonzkresearch/ovote-node/types"
 	"github.com/iden3/go-iden3-crypto/babyjub"
@@ -42,6 +43,7 @@ type Info struct {
 
 // Census contains the MerkleTree with the PublicKeys
 type Census struct {
+	sync.Mutex
 	tree *arbo.Tree
 	db   db.Database
 }
@@ -158,6 +160,9 @@ func (c *Census) GetErrMsg() (string, error) {
 
 // Close closes the census
 func (c *Census) Close() error {
+	c.Lock()
+	defer c.Unlock()
+
 	isClosed, err := c.IsClosed()
 	if err != nil {
 		return err
@@ -194,6 +199,9 @@ func (c *Census) IsClosed() (bool, error) {
 
 // Root returns the CensusRoot if the Census is closed.
 func (c *Census) Root() ([]byte, error) {
+	c.Lock()
+	defer c.Unlock()
+
 	isClosed, err := c.IsClosed()
 	if err != nil {
 		return nil, err
@@ -250,6 +258,9 @@ func (c *Census) Info() (*Info, error) {
 // indexes to each one.
 func (c *Census) AddPublicKeys(pubKs []babyjub.PublicKey,
 	weights []*big.Int) ([]arbo.Invalid, error) {
+	c.Lock()
+	defer c.Unlock()
+
 	isClosed, err := c.IsClosed()
 	if err != nil {
 		return nil, err
@@ -320,16 +331,16 @@ func (c *Census) AddPublicKeys(pubKs []babyjub.PublicKey,
 
 // GetProof returns the leaf Value and the MerkleProof compressed for the given
 // PublicKey
-func (c *Census) GetProof(pubK *babyjub.PublicKey) (uint64, []byte, error) {
+func (c *Census) GetProof(pubK *babyjub.PublicKey) (uint64, *big.Int, []byte, error) {
 	isClosed, err := c.IsClosed()
 	if err != nil {
-		return 0, nil, err
+		return 0, nil, nil, err
 	}
 	if !isClosed {
 		// if the Census is not closed, means that the Census is still
 		// being updated. MerkleProofs will be generated once the
 		// Census is closed for the final CensusRoot
-		return 0, nil, ErrCensusNotClosed
+		return 0, nil, nil, ErrCensusNotClosed
 	}
 
 	rTx := c.db.ReadTx()
@@ -339,31 +350,31 @@ func (c *Census) GetProof(pubK *babyjub.PublicKey) (uint64, []byte, error) {
 	pubKComp := pubK.Compress()
 	indexAndWeight, err := rTx.Get(pubKComp[:])
 	if err != nil {
-		return 0, nil, err
+		return 0, nil, nil, err
 	}
 	index, weight, err := types.BytesToIndexAndWeight(indexAndWeight)
 	if err != nil {
-		return 0, nil, err
+		return 0, nil, nil, err
 	}
 	index32Bytes := types.Uint64ToIndex(index)
 	_, leafV, s, existence, err := c.tree.GenProof(index32Bytes)
 	if err != nil {
-		return 0, nil, err
+		return 0, nil, nil, err
 	}
 	if !existence {
 		// proof of non-existence currently not needed in the current use case
-		return 0, nil,
+		return 0, nil, nil,
 			fmt.Errorf("publicKey does not exist in the census (%x)", pubKComp[:])
 	}
 	hashPubKBytes, err := types.HashPubKBytes(pubK, weight)
 	if err != nil {
-		return 0, nil, err
+		return 0, nil, nil, err
 	}
 	if !bytes.Equal(leafV, hashPubKBytes) {
-		return 0, nil,
+		return 0, nil, nil,
 			fmt.Errorf("leafV!=pubK: %x!=%x", leafV, pubK)
 	}
-	return index, s, nil
+	return index, weight, s, nil
 }
 
 // CheckProof checks a given MerkleProof of the given PublicKey (& index)

@@ -123,7 +123,7 @@ func TestGetProof(t *testing.T) {
 	c.Assert(err, qt.IsNil)
 
 	for i := 0; i < nKeys; i++ {
-		index, proof, err := cb.GetProof(censusID, &keys.PublicKeys[i])
+		index, _, proof, err := cb.GetProof(censusID, &keys.PublicKeys[i])
 		c.Assert(err, qt.IsNil)
 		c.Assert(index, qt.Equals, uint64(i))
 

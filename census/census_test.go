@@ -160,8 +160,9 @@ func TestGetProofAndCheckMerkleProof(t *testing.T) {
 	c.Assert(err, qt.IsNil)
 
 	for i := 0; i < nKeys; i++ {
-		index, proof, err := census.GetProof(&pubKs[i])
+		index, weight, proof, err := census.GetProof(&pubKs[i])
 		c.Assert(err, qt.IsNil)
+		c.Assert(weight.Bytes(), qt.DeepEquals, weights[i].Bytes())
 
 		// check the proof using the CheckMerkleProof method
 		v, err := CheckProof(root, proof, index, &pubKs[i], weights[i])

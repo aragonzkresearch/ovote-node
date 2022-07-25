@@ -72,7 +72,7 @@ func returnErr(c *gin.Context, err error) {
 }
 
 func (a *API) postNewCensus(c *gin.Context) {
-	var d newCensusReq
+	var d AddKeysReq
 	err := c.ShouldBindJSON(&d)
 	if err != nil {
 		returnErr(c, err)
@@ -101,7 +101,7 @@ func (a *API) postAddKeys(c *gin.Context) {
 	}
 	censusID := uint64(censusIDInt)
 
-	var d newCensusReq
+	var d AddKeysReq
 	err = c.ShouldBindJSON(&d)
 	if err != nil {
 		returnErr(c, err)
@@ -172,14 +172,14 @@ func (a *API) getMerkleProofHandler(c *gin.Context) {
 	}
 
 	// get MerkleProof
-	index, proof, err := a.cb.GetProof(censusID, pubK)
+	index, weight, proof, err := a.cb.GetProof(censusID, pubK)
 	if err != nil {
 		returnErr(c, err)
 		return
 	}
 	// PublicKey not returned, as is already known by the user
 	c.JSON(http.StatusOK,
-		types.CensusProof{Index: index, MerkleProof: proof})
+		types.CensusProof{Index: index, PublicKey: pubK, Weight: weight, MerkleProof: proof})
 }
 
 func (a *API) postVote(c *gin.Context) {
