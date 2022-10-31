@@ -178,6 +178,9 @@ func (va *VotesAggregator) GenerateProof(processID uint64) error {
 		return err
 	}
 
+	if process.Status == types.ProcessStatusContractClosed {
+		return fmt.Errorf("Process %d closed by the contract", processID)
+	}
 	if process.ResPubStartBlock < lastSyncBlockNum {
 		return fmt.Errorf("resPubStartBlock not reached yet."+
 			" ResPubStartBlock: %d, LastSyncBlock: %d",
@@ -205,7 +208,7 @@ func (va *VotesAggregator) GenerateProof(processID uint64) error {
 	// if this line is reached, means that the proof needs to be generated
 
 	// TODO WIP initially support only for census of 100 voters
-	zki, err := va.generateZKInputs(processID, 128, 7)
+	zki, err := va.generateZKInputs(processID, 128, 7) //nolint:gomnd
 	if err != nil {
 		return err
 	}

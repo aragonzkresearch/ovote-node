@@ -17,21 +17,28 @@ import (
 type ProcessStatus int
 
 var (
-	hashLen int = arbo.HashFunctionPoseidon.Len()
+	// HashLen indicates the length of the bytes representation of the
+	// output of the Hash function used, Poseidon Hash in OVOTE's case.
+	HashLen int = arbo.HashFunctionPoseidon.Len()
+)
 
+const (
 	// ProcessStatusOn indicates that the process is accepting vote (Voting
 	// phase)
-	ProcessStatusOn ProcessStatus = 0
+	ProcessStatusOn ProcessStatus = iota
 	// ProcessStatusFrozen indicates that the process is in
 	// ResultsPublishingPhase and is no longer accepting new votes, the
 	// proof can now be generated
-	ProcessStatusFrozen ProcessStatus = 1
+	ProcessStatusFrozen
 	// ProcessStatusProofGenerating indicates that the process is no longer
 	// accepting new votes and the zkProof is being generated
-	ProcessStatusProofGenerating ProcessStatus = 2
+	ProcessStatusProofGenerating
 	// ProcessStatusProofGenerated indicates that the process is finished,
 	// and the zkProof is already generated
-	ProcessStatusProofGenerated ProcessStatus = 3
+	ProcessStatusProofGenerated
+	// ProcessStatusContractClosed indicates that the process has been
+	// closed in the contract.
+	ProcessStatusContractClosed
 )
 
 // ByteArray is a type alias over []byte to implement custom json marshalers in
@@ -113,7 +120,7 @@ type Process struct {
 // HashVote computes the vote hash following the circuit approach
 func HashVote(chainID, processID uint64, vote []byte) (*big.Int, error) {
 	voteBI := arbo.BytesToBigInt(vote)
-	signedMsg, err := poseidon.Hash([]*big.Int{
+	o, err := poseidon.Hash([]*big.Int{
 		big.NewInt(int64(chainID)),
 		big.NewInt(int64(processID)),
 		voteBI,
@@ -121,7 +128,7 @@ func HashVote(chainID, processID uint64, vote []byte) (*big.Int, error) {
 	if err != nil {
 		return nil, err
 	}
-	return signedMsg, nil
+	return o, nil
 }
 
 func (vp *VotePackage) verifySignature(chainID, processID uint64) error {
@@ -189,7 +196,7 @@ func HashPubKBytes(pubK *babyjub.PublicKey, weight *big.Int) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	return arbo.BigIntToBytes(hashLen, pubKHash), nil
+	return arbo.BigIntToBytes(HashLen, pubKHash), nil
 }
 
 //

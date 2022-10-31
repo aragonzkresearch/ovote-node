@@ -61,7 +61,8 @@ func GenVotes(c *qt.C, cens *Census, chainID, processID uint64, ratio int) []typ
 		panic(fmt.Errorf("ratio can not be >=100, ratio: %d", ratio))
 	}
 	var votes []types.VotePackage
-	nPosVotes := int(math.Ceil(float64(len(cens.Keys.PrivateKeys)) * (float64(ratio) / 100)))
+	nPosVotes := int(math.Ceil(float64(len(cens.Keys.PrivateKeys)) *
+		(float64(ratio) / 100))) //nolint:gomnd
 	l := arbo.HashFunctionPoseidon.Len()
 	for i := 0; i < len(cens.Keys.PrivateKeys); i++ {
 		voteBytes := make([]byte, l)

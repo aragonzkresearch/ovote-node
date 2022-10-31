@@ -103,7 +103,7 @@ func New(opts Options) (*Census, error) {
 }
 
 func (c *Census) setNextIndex(wTx db.WriteTx, nextIndex uint64) error {
-	b := make([]byte, 8)
+	b := make([]byte, 8) //nolint:gomnd
 	binary.LittleEndian.PutUint64(b, uint64(nextIndex))
 	if err := wTx.Set(dbKeyNextIndex, b); err != nil {
 		return err

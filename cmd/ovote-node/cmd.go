@@ -124,10 +124,12 @@ func main() {
 			log.Fatal(err)
 		}
 
-		err = ethC.Sync()
-		if err != nil {
-			log.Fatal(err)
-		}
+		go func() {
+			err = ethC.Sync()
+			if err != nil {
+				log.Fatal(err)
+			}
+		}()
 	}
 
 	a, err := api.New(censusBuilder, votesAggregator)

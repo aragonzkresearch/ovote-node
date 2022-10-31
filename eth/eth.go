@@ -6,6 +6,7 @@ import (
 	"math/big"
 
 	"github.com/aragonzkresearch/ovote-node/db"
+	oTypes "github.com/aragonzkresearch/ovote-node/types"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
@@ -247,6 +248,12 @@ func (c *Client) processEventLog(eventLog types.Log) error {
 		}
 		log.Debugf("Event: (blocknum: %d) %s",
 			eventLog.BlockNumber, e)
+		// update process status in DB
+		err = c.db.UpdateProcessStatus(e.ProcessID, oTypes.ProcessStatusContractClosed)
+		if err != nil {
+			return fmt.Errorf("error updating process status: %x, err: %s",
+				eventLog.Data, err)
+		}
 	default:
 		fmt.Printf("LOG in block %d:\n %x \n", eventLog.BlockNumber, eventLog.Data)
 		return fmt.Errorf("unrecognized event log with length %d", l)

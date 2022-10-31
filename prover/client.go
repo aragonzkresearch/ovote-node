@@ -6,6 +6,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+
+	//nolint:staticcheck TODO update to io
 	"io/ioutil"
 	"net/http"
 	"strconv"

@@ -58,7 +58,7 @@ func New(database db.Database, subDBsPath string) (*CensusBuilder, error) {
 var dbKeyNextCensusID = []byte("nextCensusID")
 
 func (cb *CensusBuilder) setNextCensusID(wTx db.WriteTx, nextCensusID uint64) error {
-	b := make([]byte, 8)
+	b := make([]byte, 8) //nolint:gomnd
 	binary.LittleEndian.PutUint64(b, uint64(nextCensusID))
 	if err := wTx.Set(dbKeyNextCensusID, b); err != nil {
 		return err

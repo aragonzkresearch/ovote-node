@@ -96,7 +96,7 @@ func (a *api) genProof(c *gin.Context) {
 		return
 	}
 	err = ioutil.WriteFile("zkinputs"+strconv.Itoa(a.lastID)+".json",
-		file, 0600)
+		file, 0600) //nolint:gomnd
 	if err != nil {
 		returnErr(c, err)
 		return

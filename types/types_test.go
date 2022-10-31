@@ -191,6 +191,7 @@ func TestVotePackageJSON(t *testing.T) {
 
 	c.Assert(vp2.Vote, qt.DeepEquals, vp.Vote)
 }
+
 func TestIndexAndWeightParser(t *testing.T) {
 	c := qt.New(t)
 

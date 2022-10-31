@@ -19,7 +19,7 @@ type eventNewProcess struct {
 	ResPubStartBlock uint64
 	ResPubWindow     uint64
 	MinParticipation uint8
-	Type             uint8
+	Type             uint8 // 0: multisig, 1: referendum
 }
 
 // String implements the String interface for eventNewProcess

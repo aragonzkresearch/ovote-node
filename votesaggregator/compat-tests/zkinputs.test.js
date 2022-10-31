@@ -2,6 +2,8 @@ const path = require("path");
 const fs = require("fs");
 const { expect } = require("chai");
 
+// to use c_tester need installed:
+// apt install nlohmann-json3-dev nasm libgmp3-dev
 // const c_tester = require("circom_tester").c;
 const wasm_tester = require("circom_tester").wasm;
 let circuitFile = "zkinputstest.circom";

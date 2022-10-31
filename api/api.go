@@ -38,12 +38,15 @@ func New(censusBuilder *censusbuilder.CensusBuilder,
 		r.POST("/census", a.postNewCensus)
 		r.GET("/census/:censusid", a.getCensus)
 		r.POST("/census/:censusid", a.postAddKeys)
+		// TODO postCloseCensus will have authentication to ensure that
+		// the sender is the same that created the census
 		r.POST("/census/:censusid/close", a.postCloseCensus)
 		r.GET("/census/:censusid/merkleproof/:pubkey", a.getMerkleProofHandler)
 	}
 
 	if votesAggregator != nil {
 		a.va = votesAggregator
+		r.GET("/info", a.getInfo)
 		r.POST("/process/:processid", a.postVote)
 		r.GET("/process/:processid", a.getProcess)
 		r.POST("/proof/:processid", a.postGenProof)
@@ -180,6 +183,13 @@ func (a *API) getMerkleProofHandler(c *gin.Context) {
 	// PublicKey not returned, as is already known by the user
 	c.JSON(http.StatusOK,
 		types.CensusProof{Index: index, PublicKey: pubK, Weight: weight, MerkleProof: proof})
+}
+
+func (a *API) getInfo(c *gin.Context) {
+	// TODO:
+	// number of processes
+	// number of censuses
+	// last eth synced block
 }
 
 func (a *API) postVote(c *gin.Context) {

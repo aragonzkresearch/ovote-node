@@ -17,6 +17,7 @@ func (a *api) isBusy() bool {
 
 // busyFor locks the mutex for s seconds. This method is for testing
 // purposes only.
+//
 //nolint:unused
 func (a *api) busyFor(s time.Duration) {
 	a.Lock()

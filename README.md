@@ -29,12 +29,44 @@ Usage of ovote-node:
 
 So for example, running the node as a CensusBuilder and VotesAggregator for the ChainID=1 would be:
 ```
-./ovote-node -c -v --chainid=1 \
+./ovote-node -c -v -l=debug \
 --eth=wss://yourweb3url.com --addr=0xTheOVOTEContractAddress --block=6678912
 ```
 
+### API
 
-## Test
+- POST `/census`, new census: creates a new CensusTree with the given keys & weights
+  ```go
+  // AddKeysReq is the data packet used to add keys&weights to a census
+  type AddKeysReq struct {
+          PublicKeys []babyjub.PublicKeyComp `json:"publicKeys"`
+          Weights    []*big.Int              `json:"weights"`
+  }
+  ```
+- GET `/census/:censusid`, get census: returns census info
+- POST `/census/:censusid`, add keys to census:
+  ```go
+  // AddKeysReq is the data packet used to add keys&weights to a census
+  type AddKeysReq struct {
+          PublicKeys []babyjub.PublicKeyComp `json:"publicKeys"`
+          Weights    []*big.Int              `json:"weights"`
+  }
+  ```
+- POST `/census/:censusid/close`, close census: closes census
+- GET `/census/:censusid/merkleproof/:pubkey`, get MerkleProof: returns the MerkleProof for the given PublicKey
+- POST `/process/:processid`, send vote: stores the vote to be included in the rollup proof
+  ```go
+  // VotePackage represents the vote sent by the User
+  type VotePackage struct {
+          Signature   babyjub.SignatureComp `json:"signature"`
+          CensusProof CensusProof           `json:"censusProof"`
+          Vote        ByteArray             `json:"vote"`
+  }
+  ```
+- GET `/process/:processid`, get process: returns process info
+- POST `/proof/:processid`, generate proof: triggers proof generation
+- GET `/proof/:processid`, get proof: returns the generated proof
+
+### Test
 - Tests: `go test ./...` (need [go](https://go.dev/) installed)
 - Linters: `golangci-lint run --timeout=5m -c .golangci.yml` (need [golangci-lint](https://golangci-lint.run/) installed)
-

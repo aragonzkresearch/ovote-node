@@ -41,7 +41,7 @@ func (r *SQLite) StoreVotePackage(processID uint64, vote types.VotePackage) erro
 	// We use a combination of them as value for the UNIQUE id.
 	// id: index + publicKey + processID
 	// 48 =   8   +   32      + 8
-	id := make([]byte, 48)
+	id := make([]byte, 48) //nolint:gomnd
 	binary.LittleEndian.PutUint64(id[:], vote.CensusProof.Index)
 	pubKComp := vote.CensusProof.PublicKey.Compress()
 	copy(id[8:40], pubKComp[:])
