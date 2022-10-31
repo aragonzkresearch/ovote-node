@@ -1,6 +1,7 @@
 package db
 
 import (
+	"encoding/binary"
 	"fmt"
 	"math/big"
 
@@ -12,6 +13,7 @@ func (r *SQLite) StoreVotePackage(processID uint64, vote types.VotePackage) erro
 	// TODO check that processID exists
 	sqlQuery := `
 	INSERT INTO votepackages(
+		id,
 		indx,
 		publicKey,
 		weight,
@@ -20,7 +22,7 @@ func (r *SQLite) StoreVotePackage(processID uint64, vote types.VotePackage) erro
 		vote,
 		insertedDatetime,
 		processID
-	) values(?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)
+	) values(?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)
 	`
 
 	stmt, err := r.db.Prepare(sqlQuery)
@@ -34,7 +36,18 @@ func (r *SQLite) StoreVotePackage(processID uint64, vote types.VotePackage) erro
 		vote.CensusProof.Weight = big.NewInt(0)
 	}
 
-	_, err = stmt.Exec(vote.CensusProof.Index, vote.CensusProof.PublicKey,
+	// index cp.Index & PublicKey are unique for the current Census &
+	// Process, but not for all the Processes stored in the same db table.
+	// We use a combination of them as value for the UNIQUE id.
+	// id: index + publicKey + processID
+	// 48 =   8   +   32      + 8
+	id := make([]byte, 48)
+	binary.LittleEndian.PutUint64(id[:], vote.CensusProof.Index)
+	pubKComp := vote.CensusProof.PublicKey.Compress()
+	copy(id[8:40], pubKComp[:])
+	binary.LittleEndian.PutUint64(id[40:], processID)
+
+	_, err = stmt.Exec(id, vote.CensusProof.Index, vote.CensusProof.PublicKey,
 		vote.CensusProof.Weight.Bytes(), vote.CensusProof.MerkleProof,
 		vote.Signature[:], vote.Vote, processID)
 	if err != nil {

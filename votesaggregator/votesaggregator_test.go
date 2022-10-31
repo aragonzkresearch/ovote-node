@@ -69,7 +69,7 @@ func TestStoreAndReadVotes(t *testing.T) {
 	// try to store a vote with already stored index
 	err = va.AddVote(processID, votes[0])
 	c.Assert(err, qt.Not(qt.IsNil))
-	c.Assert(err.Error(), qt.Equals, "UNIQUE constraint failed: votepackages.indx")
+	c.Assert(err.Error(), qt.Equals, "UNIQUE constraint failed: votepackages.id")
 
 	// try to store invalid merkleproofs
 	votes[0].CensusProof.Index = 11

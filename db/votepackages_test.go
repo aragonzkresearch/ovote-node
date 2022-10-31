@@ -87,10 +87,10 @@ func TestStoreAndReadVotes(t *testing.T) {
 		c.Assert(err, qt.IsNil)
 	}
 
-	// try to store a vote with already stored index
+	// try to store a vote with already stored index/pubK for the processID
 	err = sqlite.StoreVotePackage(processID, votesAdded[0])
 	c.Assert(err, qt.Not(qt.IsNil))
-	c.Assert(err.Error(), qt.Equals, "UNIQUE constraint failed: votepackages.indx")
+	c.Assert(err.Error(), qt.Equals, "UNIQUE constraint failed: votepackages.id")
 
 	// read the stored votes
 	votes, err := sqlite.ReadVotePackagesByProcessID(processID)

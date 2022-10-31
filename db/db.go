@@ -55,12 +55,15 @@ func (r *SQLite) Migrate() error {
 		return err
 	}
 
+	// votepackages.id is the concatenation in bytes of the indx, publickey, processID,
+	// to ensure its uniqueness for a processID
 	query = `
 	CREATE TABLE IF NOT EXISTS votepackages(
-		indx INTEGER NOT NULL PRIMARY KEY UNIQUE,
-		publicKey BLOB NOT NULL UNIQUE,
+		id BLOG PRIMARY KEY UNIQUE,
+		indx INTEGER NOT NULL,
+		publicKey BLOB NOT NULL,
 		weight BLOB NOT NULL,
-		merkleproof BLOB NOT NULL UNIQUE,
+		merkleproof BLOB NOT NULL,
 		signature BLOB NOT NULL,
 		vote BLOB NOT NULL,
 		insertedDatetime DATETIME,
